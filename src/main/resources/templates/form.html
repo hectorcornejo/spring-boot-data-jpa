@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card bg-dark">
+			<div class="card-header text-light" th:text="${titulo}"></div>
+			<div class="card-body">
+				<hr class="hr -bw">
+				<div th:object="${cliente}" th:remove="tag">
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+					</ul>
+				</div>
+				<!-- La ruta del action te lleva al metodo post del controlador || ${cliente} es un atributo model del metodo post del controlador, gracias a el se pone th:field="*${id}" (sin necesidad de mencionar al objeto dentro de {})-->
+				<form th:action="@{/form}" th:object="${cliente}" method="post" enctype="multipart/form-data">
+					<table class="table table-borderless text-center text-light">
+						<tr>
+							<td style="width: 300px;">Nombre</td>
+							<td><input type="text"
+								th:field="*{nombre}" class="form-control"
+								th:errorclass="'form-control alert alert-danger'" /> <small
+								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
+								class="form-text text-danger"></small></td>
+
+						</tr>
+						<tr>
+							<td>Apellido</td>
+							<td><input type="text"
+								th:field="*{apellido}" class="form-control"
+								th:errorclass="'form-control alert alert-danger'" /> <small
+								th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"
+								class="form-text text-danger"></small></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><input type="text"
+								th:field="*{email}" class="form-control"
+								th:errorclass="'form-control alert alert-danger'" /> <small
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+								class="form-text text-danger"></small></td>
+						</tr>
+						<tr>
+							<td>Fecha</td>
+							<td><input type="text"
+								th:field="*{createAt}" class="form-control"
+								th:errorclass="'form-control alert alert-danger'" /> <small
+								th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"
+								class="form-text text-danger"></small></td>
+						</tr>
+						<tr>
+							<td>Foto</td>
+							<td><input type="file" name="file"
+								class="form-control"/></td>
+						</tr>
+						<tr>
+							<td><input type="submit" th:value="${boton}"
+								class="btn btn-secondary" /></td>
+						</tr>
+					</table>
+					<!-- el id por defecto es autoincremental -->
+					<!-- <input type="hidden" th:field="*{id}"/> -->
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
